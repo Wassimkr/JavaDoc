@@ -12,17 +12,37 @@ Class {
 	#category : #'JavaDoc-Package'
 }
 
-{ #category : #'instance creation' }
-JavaDoc >> for: aClass [
-
-	| methodsNames methodsNamesAsString instanceVariablesNames |
-	methodsNames := aClass methods collect: #selector.
-	methodsNamesAsString := methodsNames fold: [ :a :b | 
-	                            a , String cr , b ].
-	instanceVariablesNames := aClass instVarNames fold: [ :a :b | 
- 	                             a , String cr , b ].
-	'Superclass:' , String cr , aClass superclass name , String cr
-	, 'Instance variables names:' , String cr , instanceVariablesNames
-	, String cr , 'Methods:' , String cr , methodsNamesAsString
+{ #category : #printing }
+JavaDoc class >> for: aClass [
 	
+	| strm |
+	 
+	strm := String streamContents: [ :stream |
+		stream 
+			nextPutAll: 'Classe : ';
+			nextPutAll: aClass printString;
+			nextPutAll: '.';
+			nextPut: Character cr;
+			nextPut: Character cr;
+			nextPutAll: 'Super classe : ';
+			nextPutAll: aClass superclass printString;
+			nextPutAll: '.';
+			nextPut: Character cr;
+			nextPut: Character cr;
+			nextPutAll: 'Sub-classes : ';
+			nextPutAll: aClass subclasses printString;
+			nextPutAll: '.';
+			nextPut: Character cr;
+			nextPut: Character cr;
+			nextPutAll: 'Variables d`instances : ';
+			nextPutAll: aClass instVarNames printString;
+			nextPutAll: '.';
+			nextPut: Character cr;
+			nextPut: Character cr;
+			nextPutAll: 'Methods Name : ';
+			nextPutAll: aClass methodDict printString;
+			nextPutAll: '.';
+			nextPut: Character cr
+	].
+	^ strm.
 ]
