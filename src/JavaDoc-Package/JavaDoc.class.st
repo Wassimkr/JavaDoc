@@ -15,7 +15,10 @@ Class {
 { #category : #printing }
 JavaDoc class >> for: aClass [
 	
-	| strm |
+	| strm methodNames |
+	methodNames := aClass methods collect: [ :m | 'Method : ', m name ,  ' Comment ------------> ', m comment  printString ].
+	
+
 	 
 	strm := String streamContents: [ :stream |
 		stream 
@@ -40,9 +43,9 @@ JavaDoc class >> for: aClass [
 			nextPut: Character cr;
 			nextPut: Character cr;
 			nextPutAll: 'Methods Name : ';
-			nextPutAll: aClass methodDict printString;
+			nextPutAll: methodNames  printString;
 			nextPutAll: '.';
-			nextPut: Character cr
-	].
+			nextPut: Character cr 
+			].
 	^ strm.
 ]
